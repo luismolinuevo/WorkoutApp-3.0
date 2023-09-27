@@ -8,4 +8,44 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  relationMode = "prisma"
 }
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String @unique
+  password String 
+  name String?
+  weight String?
+  age String?
+
+}
+
+model Workouts {
+  id    Int     @id @default(autoincrement())
+  //has many exercises
+}
+
+model Exercises {
+  id    Int     @id @default(autoincrement())
+  //has many exerciseentrys and could have many workouts
+}
+
+//Im going to use this to organize easier. but may not need this
+model BodyPart {
+  id    Int     @id @default(autoincrement())
+}
+
+model ExerciseEntry {
+  id    Int     @id @default(autoincrement())
+
+}
+
+model Video {
+  id    Int     @id @default(autoincrement())
+}
+
+//many to many with workouts and excercises
+//one to many with exercises and exercise entries
+//many to many with bodypart and exercises
+//one to many with exercises and video
