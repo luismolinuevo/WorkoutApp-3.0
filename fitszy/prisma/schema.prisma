@@ -6,43 +6,62 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String @unique
-  password String 
-  name String?
-  weight String?
-  age String?
-
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  password String
+  name     String?
+  weight   String?
+  age      String?
 }
 
 model Workouts {
-  id    Int     @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
+  title     String
+  exercises Exercises[]
   //has many exercises
 }
 
 model Exercises {
-  id    Int     @id @default(autoincrement())
+  id            Int             @id @default(autoincrement())
+  title         String
+  suggestedsets String?
+  suggestedreps String?
+  workouts      Workouts[]
+  exerciseEntry ExerciseEntry[]
+  videos        Video[]
   //has many exerciseentrys and could have many workouts
 }
 
 //Im going to use this to organize easier. but may not need this
 model BodyPart {
-  id    Int     @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
+  name String
 }
 
 model ExerciseEntry {
-  id    Int     @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
+  sets String?
+  reps String?
+  comment String?
+  exercise   Exercises @relation(fields: [exerciseId], references: [id])
+  exerciseId Int
 
+  @@index([exerciseId])
 }
 
 model Video {
-  id    Int     @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
+  url        String
+  exercise   Exercises @relation(fields: [exerciseId], references: [id])
+  exerciseId Int
+
+  @@index([exerciseId])
 }
 
 //many to many with workouts and excercises
