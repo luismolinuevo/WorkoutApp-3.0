@@ -1,0 +1,2 @@
+req.json() is how you get the body(req.body)
+new Response to send information in api call. Need JSON.stringify to send json object. 

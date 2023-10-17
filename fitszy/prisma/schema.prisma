@@ -6,13 +6,14 @@ generator client {
 }
 
 datasource db {
-  provider     = "postgresql"
+  provider     = "mysql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model User {
   id       Int     @id @default(autoincrement())
+  username String  @unique @db.VarChar(16)
   email    String  @unique
   password String
   name     String?
@@ -46,9 +47,9 @@ model BodyPart {
 
 model ExerciseEntry {
   id         Int       @id @default(autoincrement())
-  sets String?
-  reps String?
-  comment String?
+  sets       String?
+  reps       String?
+  comment    String?
   exercise   Exercises @relation(fields: [exerciseId], references: [id])
   exerciseId Int
 
